@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "removeComments": true,
+    "skipDefaultLibCheck": true,
+    "target": "es6",
+    "watch": true,
+    "sourceMap": true
+  },
+  "exclude": ["node_modules"]
+}

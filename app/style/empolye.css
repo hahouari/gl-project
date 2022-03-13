@@ -1,0 +1,112 @@
+.services-header {
+  margin-top: 20px;
+}
+
+.service-type {
+  padding: 12px 10px;
+}
+
+h2.welcome {
+  margin: 10% 2% !important;
+}
+
+.width-limited {
+  width: 200px !important;
+}
+
+.notification-container {
+  min-height: 38px;
+  height: 38px;
+}
+
+.notification-container .notification {
+  display: none;
+}
+
+.notification-container .notification > div:first-child {
+  padding: 6px 0 6px 12px !important;
+  border: 1px solid #007bff;
+}
+
+.disabled-tab {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.quantity-inserter {
+  width: 130px;
+  height: 25px;
+}
+
+.quantity-inserter > div > button {
+  padding: 0 10px;
+  width: 30px;
+}
+
+.quantity-inserter > input {
+  border: 1px solid #6c757d;
+  padding-left: 5px;
+}
+
+.quantity-inserter > div,
+.quantity-inserter > input {
+  height: 25px;
+}
+
+.pieces-list {
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.piece-img {
+  width: 25px;
+  height: 25px;
+}
+
+.services-tabs {
+  margin-bottom: 30px;
+}
+
+.dropdown-btn {
+  min-width: 210px;
+  text-align: left;
+}
+
+.dropdown-btn::after {
+  float: right;
+  margin: 10px 0 0px 10px;
+}
+
+.dropdown-menu {
+  min-width: 210px;
+}
+
+.confirm {
+  position: absolute;
+  bottom: -12px;
+  right: -4px;
+  text-align: right;
+  padding: 0px;
+}
+
+.modePayment {
+  padding-left: 37px;
+}
+
+.registered-note {
+  display: none;
+}
+
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.main-d-ouevre {
+  width: 30px;
+}
+
+.tab-content {
+  height: calc(100vh - 390px);
+  overflow-y: auto;
+}
+/*# sourceMappingURL=empolye.css.map */

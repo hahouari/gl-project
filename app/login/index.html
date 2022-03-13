@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="../style/basic.css" />
+    <link rel="stylesheet" href="../style/login.css" />
+  </head>
+  <body>
+    <div id="main">
+      <div class="container login-header">
+        <h1 class="display-5 text-center">Login</h1>
+      </div>
+      <div class="input-group mb-3 login-input">
+        <input
+          id="user"
+          type="text"
+          class="form-control"
+          placeholder="Username"
+          aria-label="Username"
+          aria-describedby="basic-addon1"
+        />
+      </div>
+      <div class="input-group mb-3 login-input">
+        <input
+          id="pass"
+          type="password"
+          class="form-control"
+          placeholder="Password"
+          aria-label="Password"
+          aria-describedby="basic-addon1"
+        />
+      </div>
+      <div class="alert login-alert" role="alert"></div>
+      <div id="login-btn" class="container login-btn">
+        <button type="button" class="btn btn-dark">Login</button>
+      </div>
+    </div>
+    <script>
+      let exports = {};
+    </script>
+    <script src="renderer.js"></script>
+  </body>
+</html>

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title>Garage</title>
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="../style/basic.css" />
+    <link rel="stylesheet" href="../style/empolye.css" />
+    <script>
+      window.$ = window.jQuery = require('jquery');
+    </script>
+  </head>
+  <body>
+    <div id="main">
+      <div class="container-fluid mt-1">
+        <div class="ml-4 mr-4">
+          <div class="input-group mb-1 mt-3">
+            <input
+              id="id-input"
+              type="text"
+              class="form-control"
+              placeholder="ID de client"
+              aria-label="ID de client"
+              aria-describedby="basic-addon1"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-primary disabled"
+                type="button"
+                id="verifier-btn"
+                disabled
+              >
+                Vérifier
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="ml-4 mr-4 notification-container">
+          <div class="input-group mb-2 pt-3 notification">
+            <div class="alert alert-danger form-control" role="alert">
+              L'ID entrée est invalide, saisi une ID de 4 chiffres.
+            </div>
+          </div>
+          <div class="input-group mb-2 pt-3 notification">
+            <div
+              id="user-not-enregistered-notification"
+              class="alert alert-danger form-control"
+              role="alert"
+            >
+              Cette ID n'est pas Enregistrée, enregistrer un nouveau client?
+            </div>
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-primary"
+                type="button"
+                id="save-user-btn"
+              >
+                Entegistrer
+              </button>
+            </div>
+          </div>
+          <div class="input-group mb-2 pt-3 notification">
+            <div class="alert alert-success form-control" role="alert">
+              Vérifié!
+            </div>
+          </div>
+        </div>
+
+        <ul class="nav nav-tabs nav-fill services-tabs mt-5" role="tablist">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="parking-tab"
+              data-toggle="tab"
+              href="#parking"
+              role="tab"
+              aria-controls="parking"
+              aria-selected="false"
+            >
+              <div class="d-flex flex-row bd-highlight m-auto width-limited">
+                <img src="../img/service-parking.png" height="24" width="24" />
+                <p class="mb-0 ml-2">Service de Parking</p>
+              </div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              id="reparation-tab"
+              data-toggle="tab"
+              href="#reparation"
+              role="tab"
+              aria-controls="reparation"
+              aria-selected="true"
+            >
+              <div class="d-flex flex-row bd-highlight m-auto width-limited">
+                <img
+                  src="../img/service-reparation.png"
+                  height="24"
+                  width="24"
+                />
+                <p class="mb-0 ml-2">Service de Réparation</p>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div
+            class="tab-pane fade"
+            id="parking"
+            role="tabpanel"
+            aria-labelledby="parking-tab"
+          >
+            <div class="container-fluid mt-4 d-flex">
+              <div style="width: 199px;  padding: 7px;" class=" mb-4">
+                Nombre des places vides:
+              </div>
+              <span
+                style=" padding: 7px;"
+                class="mb-4"
+                id="plc-vide-num"
+              ></span>
+              <button
+                class="btn btn-outline-primary ml-2 mb-4 mr-3 disabled"
+                type="button"
+                id="occ-plc-btn"
+                disabled
+              >
+                Occuper Place
+              </button>
+              <div>
+                <div
+                  class="alert alert-success form-control occ-note"
+                  role="alert"
+                  style="width: fit-content; padding: 7px; display: none;"
+                >
+                  Numéro de la place occuppée:&nbsp;
+                  <span id="occ-plc-num"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade show active disabled-tab"
+            id="reparation"
+            role="tabpanel"
+            aria-labelledby="reparation-tab"
+          >
+            <div class="list-group pieces-list">
+              <script>
+                let minus = input => {
+                  input.value = input.value > input.min ? input.value - 1 : 0;
+                  document
+                    .getElementById('parking-tab')
+                    .classList.add('disabled');
+                  document
+                    .getElementById('cancel-service')
+                    .classList.remove('disabled');
+                  document.getElementById('cancel-service').disabled = false;
+                };
+
+                let plus = input => {
+                  if (parseInt(input.value) < parseInt(input.max))
+                    input.value++;
+                  document
+                    .getElementById('parking-tab')
+                    .classList.add('disabled');
+                  document
+                    .getElementById('cancel-service')
+                    .classList.remove('disabled');
+                  document.getElementById('cancel-service').disabled = false;
+                };
+                let enablePay = () => {
+                  if (
+                    (parseInt(hours.value) > 0 || parseInt(mins.value) > 0) &&
+                    Array.from(
+                      document.getElementsByClassName('quantity-inserter')
+                    ).some(ele => parseInt(ele.children[1].value) > 0)
+                  ) {
+                    modePayBtn.disabled = false;
+                    modePayBtn.classList.remove('disabled');
+                  } else {
+                    modePayBtn.disabled = true;
+                    modePayBtn.classList.add('disabled');
+                  }
+                };
+              </script>
+              <div class="list-group-item">
+                <img class="piece-img" src="../img/gearbox.png" /> La boîte de
+                vitesses
+
+                <div class="input-group float-right quantity-inserter">
+                  <div class="input-group-prepend">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      onclick="minus(this.parentElement.nextElementSibling); "
+                      onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                      onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    >
+                      -
+                    </button>
+                  </div>
+
+                  <input
+                    onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                    onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    min="0"
+                    type="number"
+                    class="form-control"
+                    value="0"
+                  />
+
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      onclick="plus(this.parentElement.previousElementSibling); "
+                      onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                      onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <span
+                  id="gearbox-badge"
+                  class="piece badge badge-pill pull-right"
+                ></span>
+              </div>
+              <div class="list-group-item">
+                <div class="input-group float-right quantity-inserter">
+                  <div class="input-group-prepend">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      onclick="minus(this.parentElement.nextElementSibling); "
+                      onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                      onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    >
+                      -
+                    </button>
+                  </div>
+
+                  <input
+                    onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                    onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    min="0"
+                    type="number"
+                    class="form-control"
+                    value="0"
+                  />
+
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      onclick="plus(this.parentElement.previousElementSibling); "
+                      onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                      onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <img class="piece-img" src="../img/timing-belt.png" /> La
+                courroie de distribution
+                <span
+                  id="timing-belt-badge"
+                  class="piece badge badge-pill pull-right"
+                ></span>
+              </div>
+              <div class="list-group-item">
+                <div class="input-group float-right quantity-inserter">
+                  <div class="input-group-prepend">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      onclick="minus(this.parentElement.nextElementSibling); "
+                      onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                      onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    >
+                      -
+                    </button>
+                  </div>
+
+                  <input
+                    onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                    onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    min="0"
+                    type="number"
+                    class="form-control"
+                    value="0"
+                  />
+
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      onclick="plus(this.parentElement.previousElementSibling); "
+                      onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                      onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <img class="piece-img" src="../img/brake-disk.png" /> Le disque
+                de freins
+                <span
+                  id="brake-disk-badge"
+                  class="piece badge badge-pill pull-right"
+                ></span>
+              </div>
+              <div class="list-group-item">
+                <div class="input-group float-right quantity-inserter">
+                  <div class="input-group-prepend">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      onclick="minus(this.parentElement.nextElementSibling); "
+                      onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                      onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    >
+                      -
+                    </button>
+                  </div>
+
+                  <input
+                    onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                    onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    min="0"
+                    type="number"
+                    class="form-control"
+                    value="0"
+                  />
+
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      onclick="plus(this.parentElement.previousElementSibling); "
+                      onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                      onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <img class="piece-img" src="../img/damper.png" /> L'amortisseur
+                avant ou arrière
+                <span
+                  id="damper-badge"
+                  class="piece badge badge-pill pull-right"
+                ></span>
+              </div>
+              <div class="list-group-item">
+                <div class="input-group float-right quantity-inserter">
+                  <div class="input-group-prepend">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      onclick="minus(this.parentElement.nextElementSibling); "
+                      onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                      onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    >
+                      -
+                    </button>
+                  </div>
+
+                  <input
+                    onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                    onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    min="0"
+                    type="number"
+                    class="form-control"
+                    value="0"
+                  />
+
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      onclick="plus(this.parentElement.previousElementSibling); "
+                      onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                      onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <img class="piece-img" src="../img/wiper.png" /> Le pack
+                essuie-glace
+                <span
+                  id="wiper-badge"
+                  class="piece badge badge-pill pull-right"
+                ></span>
+              </div>
+            </div>
+            <div
+              class="container-fluid mt-3 d-flex mb-1"
+              style="padding-left: 22px;"
+            >
+              <div style="padding-top: 6px;">
+                indiquer le temps de main d'oeuvre
+              </div>
+              <input
+                style="width: 75px;"
+                class="ml-2 form-control main-d-ouevre m-0"
+                type="number"
+                placeholder="heures"
+                id="hours"
+                min="0"
+                onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+              />
+              <input
+                style="width: 82px;"
+                class=" ml-2 form-control main-d-ouevre m-0"
+                type="number"
+                placeholder="minutes"
+                id="mins"
+                min="0"
+                max="59"
+                onchange="enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');"
+                onkeydown="setTimeout(() => {enablePay(); document.getElementById('cancel-service').disabled = false; document.getElementById('cancel-service').classList.remove('disabled');},)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid modePayment mt-3">
+        <div class="float-left pt-2 pr-3">
+          Choisissez la méthode de payment:
+        </div>
+        <div class="dropdown">
+          <button
+            disabled
+            class="dropdown-btn btn btn-primary dropdown-toggle disabled"
+            type="button"
+            id="mode-pay-btn"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Méthode de Payement
+          </button>
+          <div class="dropdown-menu" aria-labelledby="modePayment">
+            <a class="dropdown-item" href="#">Immediate</a>
+            <a class="dropdown-item" href="#">Diffiré</a>
+          </div>
+        </div>
+      </div>
+      <div id="registered-note" class="registered-note input-group p-4">
+        <div
+          style="
+        border: 1px solid #007bff !important; padding: 6px !important;"
+          class="alert alert-success form-control"
+          role="alert"
+        >
+          Service Enregistrée! Le prix total est: <span id="ttl-price"></span>
+        </div>
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-primary"
+            type="button"
+            onclick="this.parentElement.parentElement.style.display = 'none'"
+          >
+            X
+          </button>
+        </div>
+      </div>
+      <div class="container-fluid confirm">
+        <input
+          id="cancel-service"
+          class="btn btn-outline-secondary ml-2 mb-4 mr-3 disabled"
+          type="button"
+          disabled
+          value="Cancel"
+        />
+        <input
+          id="confirm-service"
+          class="btn btn-outline-primary ml-2 mb-4 mr-3 disabled"
+          type="submit"
+          disabled
+          value="Confirmer Le service"
+        />
+      </div>
+    </div>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      let exports = {};
+    </script>
+    <script src="renderer.js"></script>
+  </body>
+</html>

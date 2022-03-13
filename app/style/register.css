@@ -1,0 +1,36 @@
+#main {
+  background-color: #e9ecef;
+  height: 100%;
+  width: 100%;
+}
+
+.register-header {
+  padding: 10px 15px;
+}
+
+.register-header > h4 {
+  font-weight: bold;
+}
+
+.register-input {
+  padding: 0 15px;
+}
+
+.register-input > input {
+  height: calc(1.5em + 0.75rem - 2px) !important;
+  padding-top: 5px;
+}
+
+.register-alert {
+  margin: 15px;
+  padding: 3px;
+  padding-left: 8px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  height: 30px;
+}
+
+.register-btn > button {
+  width: 100%;
+}
+/*# sourceMappingURL=register.css.map */
