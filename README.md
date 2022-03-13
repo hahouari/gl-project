@@ -1,2 +1,2 @@
 # gl-project
-Project of GL classe
+Project of GL class
